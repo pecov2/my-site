@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeMenu = () => {
     if (!header || !menuToggle) return;
     header.classList.remove('nav-open');
+    document.body.classList.remove('nav-lock');
     menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.setAttribute('aria-label', 'メニューを開く');
   };
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (menuToggle && header && nav) {
     menuToggle.addEventListener('click', () => {
       const isOpen = header.classList.toggle('nav-open');
+      document.body.classList.toggle('nav-lock', isOpen);
       menuToggle.setAttribute('aria-expanded', String(isOpen));
       menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
     });
