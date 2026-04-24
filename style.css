@@ -252,16 +252,37 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding-block: 16px;
+  padding-block: 18px;
 }
 
 .logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: none;
   font-size: clamp(1.35rem, 1.2vw + 1rem, 1.8rem);
   color: #111827;
   white-space: nowrap;
+}
+
+.logo-main {
+  display: block;
+  width: 100%;
+  line-height: 1.1;
+}
+
+.logo-sub {
+  display: block;
+  width: 92%;
+  font-family: var(--font-serif);
+  font-size: 0.42em;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: #374151;
 }
 
 .menu-toggle {
@@ -795,6 +816,10 @@ a {
   color: var(--text-soft);
 }
 
+.footer-logo {
+  margin: 0 auto 8px;
+}
+
 .faq-list {
   margin-top: 16px;
   display: flex;
@@ -844,7 +869,7 @@ a {
   }
 
   .header-inner {
-    padding-block: 10px;
+    padding-block: 12px;
   }
 
   .hero {
