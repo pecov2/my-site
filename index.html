@@ -10,10 +10,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Sawarabi+Mincho&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260422d" />
+  <link rel="stylesheet" href="style.css?v=20260504i" />
 </head>
 
-<body>
+<body data-page="kendo">
   <div id="page-loader">
     <div class="loader-panel left"></div>
     <div class="loader-panel right"></div>
@@ -23,7 +23,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="#hero" class="logo">
-        <span class="logo-main">住吉武道館</span>
+        <span class="logo-main" data-i18n="logoMain">住吉武道館</span>
         <span class="logo-sub">SUMIYOSHI BUDOKAN</span>
       </a>
       <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-nav">
@@ -32,11 +32,12 @@
         <span></span>
       </button>
       <nav class="nav" id="site-nav">
-        <a href="#about">教室について</a>
-        <a href="#features">教室の特徴</a>
-        <a href="#schedule">稽古日・場所</a>
-        <a href="#pricing">料金</a>
-        <a href="#contact">体験・お問い合わせ</a>
+        <a href="#about" data-i18n="navAbout">教室について</a>
+        <a href="#features" data-i18n="navFeatures">教室の特徴</a>
+        <a href="#schedule" data-i18n="navSchedule">稽古日・場所</a>
+        <a href="#pricing" data-i18n="navPricing">料金</a>
+        <a href="#contact" data-i18n="navContact">体験・お問い合わせ</a>
+        <button class="language-toggle" type="button" data-lang-toggle>English</button>
       </nav>
     </div>
   </header>
@@ -45,16 +46,16 @@
     <section id="hero" class="hero">
       <div class="container hero-inner">
         <div class="hero-text">
-          <h1>大人の剣道教室</h1>
-          <p class="hero-tagline">大人のための、心と体を整える剣道。</p>
-          <p>
+          <h1 data-i18n="heroTitle">大人の剣道教室</h1>
+          <p class="hero-tagline" data-i18n="heroTagline">大人のための、心と体を整える剣道。</p>
+          <p data-i18n="heroText">
             休日のリフレッシュや、しばらく離れていた方の再開にも。
 住吉の静かな空間で、あらためて自分と向き合う時間を過ごしてみませんか。
           </p>
         </div>
         <div class="hero-visual">
           <div class="hero-photo">
-            <img src="1.png" alt="住吉武道館 大人の剣道教室の集合写真" class="hero-photo-img" />
+            <img src="1.png" alt="住吉武道館 大人の剣道教室の集合写真" class="hero-photo-img" data-i18n-attr="alt:heroImageAlt" />
             <div class="hero-photo-overlay"></div>
           </div>
         </div>
@@ -63,8 +64,8 @@
 
     <section id="about" class="section">
       <div class="container section-inner">
-        <h2 class="section-title">教室について</h2>
-        <p class="section-lead">
+        <h2 class="section-title" data-i18n="aboutTitle">教室について</h2>
+        <p class="section-lead" data-i18n="aboutLead">
           一人ひとりの目的や体力に合わせて、無理のないペースで稽古を行います。
 剣道を通して、姿勢・呼吸・心の持ち方を少しずつ整えていくことを大切にしています。
         </p>
@@ -73,13 +74,13 @@
 
     <section id="features" class="section">
       <div class="container section-inner">
-        <h2 class="section-title">教室の特徴</h2>
+        <h2 class="section-title" data-i18n="featuresTitle">教室の特徴</h2>
         <div class="badge-row">
-          <span class="badge">初心者歓迎</span>
-          <span class="badge">幅広い年代が参加</span>
-          <span class="badge">再開の方も歓迎</span>
+          <span class="badge" data-i18n="badge1">初心者歓迎</span>
+          <span class="badge" data-i18n="badge2">幅広い年代が参加</span>
+          <span class="badge" data-i18n="badge3">再開の方も歓迎</span>
         </div>
-        <p class="section-lead">
+        <p class="section-lead" data-i18n="featuresLead">
           それぞれの経験や状態に応じて、内容を調整しながら指導を行います。
 初めての方も、安心してご参加いただけます。
         </p>
@@ -88,19 +89,19 @@
 
     <section id="schedule" class="section">
       <div class="container section-inner">
-        <h2 class="section-title">稽古日時・場所</h2>
+        <h2 class="section-title" data-i18n="scheduleTitle">稽古日時・場所</h2>
         <div class="schedule-simple">
-          <p><strong>日時：</strong>毎週土曜日 11:30〜13:00</p>
-          <p><strong>場所：</strong>住吉武道館　大阪市住吉区住吉1-9-89</p>
-          <p><strong>最寄駅：</strong>南海本線「住吉大社駅」から徒歩5分</p>
+          <p data-i18n="scheduleDate"><strong>日時：</strong>毎週土曜日 11:30〜13:00</p>
+          <p data-i18n="schedulePlace"><strong>場所：</strong>住吉武道館　大阪市住吉区住吉2-9-89</p>
+          <p data-i18n="scheduleStation"><strong>最寄駅：</strong>南海本線「住吉大社駅」から徒歩5分</p>
         </div>
         <div class="belongings-section">
-          <h3 class="belongings-title">持ち物</h3>
+          <h3 class="belongings-title" data-i18n="belongingsTitle">持ち物</h3>
           <ul class="belongings-list">
-            <li>剣道着・袴（お持ちの方）</li>
-            <li>飲み物、タオル</li>
-            <li>替えのTシャツ（必要に応じて）</li>
-            <li>防具一式（お持ちの方のみ）</li>
+            <li data-i18n="belonging1">剣道着・袴（お持ちの方）</li>
+            <li data-i18n="belonging2">飲み物、タオル</li>
+            <li data-i18n="belonging3">替えのTシャツ（必要に応じて）</li>
+            <li data-i18n="belonging4">防具一式（お持ちの方のみ）</li>
           </ul>
         </div>
       </div>
@@ -108,9 +109,9 @@
 
     <section id="pricing" class="section gray">
       <div class="container section-inner">
-        <h2 class="section-title">料金のご案内</h2>
-        <p class="section-lead">月額4,400円（税込）</p>
-        <p class="section-note">
+        <h2 class="section-title" data-i18n="pricingTitle">料金のご案内</h2>
+        <p class="section-lead" data-i18n="pricingLead">月額4,400円（税込）</p>
+        <p class="section-note" data-i18n="pricingNote">
           ※入会金、保険料、防具購入の目安などは、お問い合わせ時にご案内いたします。
         </p>
       </div>
@@ -118,18 +119,40 @@
 
     <section id="contact" class="section">
       <div class="container section-inner">
-        <h2 class="section-title">体験・お問い合わせ</h2>
-        <p class="section-lead">
+        <h2 class="section-title" data-i18n="contactTitle">体験・お問い合わせ</h2>
+        <p class="section-lead" data-i18n="contactLead">
           見学・体験のお申し込みやご質問は、下記よりお気軽にご連絡ください。
         </p>
         <ul class="contact-methods">
           <li>
-            <strong>電話番号</strong>：06-6565-0102
+            <strong data-i18n="contactName">住吉武道館</strong>
+          </li>
+          <li data-i18n="contactAddressBlock">
+            〒558-0045<br>
+            大阪市住吉区住吉2-9-89
           </li>
           <li>
-            <strong>メール</strong>：@gmail.com
+            <strong>Tel</strong>：06-6678-2422
+          </li>
+          <li>
+            <strong data-i18n="emailLabel">メール</strong>：info@sumiyoshibudokan.com
+          </li>
+          <li>
+            <strong data-i18n="officialSiteLabel">公式HP</strong>：<a href="https://sumiyoshibudokan.com/" target="_blank" rel="noopener">https://sumiyoshibudokan.com/</a>
+          </li>
+          <li>
+            <strong data-i18n="hoursLabel">営業時間</strong><br>
+            <span data-i18n="hoursText">9:00〜20:00（月〜土）<br>
+            9:00〜17:00（日・祝）<br>
+            毎週火曜日休館日</span>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <section class="section related-link-section">
+      <div class="container section-inner">
+        <a href="../naginata/index.html" class="btn ghost" data-i18n="relatedLink">子供と大人のなぎなた教室はこちら</a>
       </div>
     </section>
   </main>
@@ -137,17 +160,17 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="logo footer-logo" aria-label="住吉武道館">
-        <span class="logo-main">住吉武道館</span>
+        <span class="logo-main" data-i18n="logoMain">住吉武道館</span>
         <span class="logo-sub">SUMIYOSHI BUDOKAN</span>
       </div>
       <p>
-        &copy; <span id="year"></span> 住吉武道館 大人の剣道教室. All rights
-        reserved.
+        &copy; <span id="year"></span> <span data-i18n="footerText">住吉武道館 大人の剣道教室. All rights
+        reserved.</span>
       </p>
     </div>
   </footer>
 
-  <script src="script.js?v=20260422c"></script>
+  <script src="script.js?v=20260502c"></script>
 </body>
 
 </html>
