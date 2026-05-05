@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (langToggle) {
     langToggle.addEventListener('click', () => {
       applyLanguage(currentLang === 'ja' ? 'en' : 'ja');
+      window.setTimeout(buildKamishibaiStage, 0);
     });
   }
 
@@ -246,6 +247,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       e.preventDefault();
       const scrollToTarget = () => {
+        const kamishibaiIndexById = {
+          hero: 0,
+          about: 1,
+          features: 1,
+          schedule: 2,
+          pricing: 2,
+          contact: 3
+        };
+        if (document.body.classList.contains('has-kamishibai-stage') && targetId in kamishibaiIndexById) {
+          const maxIndex = 3;
+          const end = window.innerHeight * maxIndex;
+          smoothScrollTo((end / maxIndex) * kamishibaiIndexById[targetId], 760);
+          return;
+        }
+
         const headerHeight = header ? header.getBoundingClientRect().height : 0;
         const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
         smoothScrollTo(Math.max(0, targetTop));
@@ -306,6 +322,139 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 簡易的なお問い合わせフォームのダミー送信処理
+
+  function buildKamishibaiStage() {
+    const existing = document.querySelector('.kamishibai-stage');
+    existing?.remove();
+
+    const sceneGroups = [
+      ['#hero .hero-inner'],
+      ['#about .section-inner', '#features .section-inner'],
+      ['#schedule .section-inner', '#pricing .section-inner'],
+      ['#contact .section-inner']
+    ];
+    const sources = sceneGroups.map((selectors) => selectors
+      .map((selector) => document.querySelector(selector))
+      .filter(Boolean));
+    if (sources.some((group) => !group.length)) return;
+
+    const stage = document.createElement('div');
+    stage.className = 'kamishibai-stage';
+    stage.setAttribute('aria-hidden', 'true');
+    sources.forEach((group, index) => {
+      const scene = document.createElement('section');
+      scene.className = 'kamishibai-scene';
+      scene.style.zIndex = String(index + 1);
+      const container = document.createElement('div');
+      container.className = 'container';
+      const stack = document.createElement('div');
+      stack.className = index === 0 ? '' : 'kamishibai-card-stack';
+
+      group.forEach((source) => {
+        const clone = source.cloneNode(true);
+        clone.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+        clone.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+          el.classList.remove('reveal-on-scroll');
+          el.classList.add('is-visible');
+          el.style.removeProperty('--reveal-delay');
+        });
+        stack.appendChild(clone);
+      });
+
+      container.appendChild(stack);
+      scene.appendChild(container);
+      stage.appendChild(scene);
+    });
+
+    document.body.appendChild(stage);
+    document.body.classList.add('has-kamishibai-stage');
+
+    const scenes = [...stage.querySelectorAll('.kamishibai-scene')];
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const start = 0;
+      const end = window.innerHeight * (scenes.length - 1);
+      const y = window.scrollY || window.pageYOffset;
+      stage.classList.add('is-active');
+      document.body.classList.remove('kamishibai-ending');
+
+      const progress = Math.max(0, Math.min(1, (y - start) / Math.max(1, end - start)));
+      const paperProgress = progress * (scenes.length - 1);
+      scenes.forEach((scene, index) => {
+        const offset = Math.max(0, Math.min(100, (index - paperProgress) * 100));
+        scene.style.transform = `translate3d(0, ${offset.toFixed(2)}%, 0)`;
+      });
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    const getKamishibaiEnd = () => window.innerHeight * (scenes.length - 1);
+
+    let isSnapping = false;
+    let touchStartY = null;
+
+    const snapKamishibai = (direction) => {
+      if (isSnapping) return;
+      const end = getKamishibaiEnd();
+      const y = window.scrollY || window.pageYOffset;
+      if ((direction < 0 && y <= 2) || (direction > 0 && y >= end - 2)) return;
+
+      const maxIndex = scenes.length - 1;
+      const currentIndex = Math.round((Math.max(0, Math.min(end, y)) / Math.max(1, end)) * maxIndex);
+      const nextIndex = Math.max(0, Math.min(maxIndex, currentIndex + direction));
+      const targetY = (end / maxIndex) * nextIndex;
+
+      isSnapping = true;
+      smoothScrollTo(targetY, 760);
+      window.setTimeout(() => {
+        isSnapping = false;
+      }, 820);
+    };
+
+    const handleWheelSnap = (event) => {
+      const end = getKamishibaiEnd();
+      const y = window.scrollY || window.pageYOffset;
+      if (y < -2 || y > end + 2) return;
+      if (Math.abs(event.deltaY) < 4) return;
+      if ((event.deltaY < 0 && y <= 2) || (event.deltaY > 0 && y >= end - 2)) return;
+      event.preventDefault();
+      snapKamishibai(event.deltaY > 0 ? 1 : -1);
+    };
+
+    const handleTouchStart = (event) => {
+      touchStartY = event.touches[0]?.clientY ?? null;
+    };
+
+    const handleTouchMove = (event) => {
+      if (touchStartY === null) return;
+      const currentY = event.touches[0]?.clientY ?? touchStartY;
+      const delta = touchStartY - currentY;
+      if (Math.abs(delta) < 28) return;
+      const end = getKamishibaiEnd();
+      const y = window.scrollY || window.pageYOffset;
+      if ((delta < 0 && y <= 2) || (delta > 0 && y >= end - 2)) return;
+      event.preventDefault();
+      touchStartY = null;
+      snapKamishibai(delta > 0 ? 1 : -1);
+    };
+
+    update();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    window.addEventListener('load', update);
+    window.addEventListener('wheel', handleWheelSnap, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+  }
+
+  buildKamishibaiStage();
+
   const form = document.querySelector('.contact-form');
   const messageEl = document.getElementById('form-message');
 

@@ -307,12 +307,18 @@ a {
 }
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 20;
+  left: 0;
+  right: 0;
+  z-index: 120;
   backdrop-filter: blur(16px);
   background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.site-header + main {
+  padding-top: clamp(70px, 6.5vw, 92px);
 }
 
 .reveal-on-scroll {
@@ -682,7 +688,7 @@ a {
   background-color: transparent;
   width: min(900px, 100%);
   aspect-ratio: 16 / 9;
-  border-radius: 0;
+  border-radius: 10px 10px 10px 96px !important;
   border: none;
   color: inherit;
   box-shadow: none;
@@ -698,6 +704,7 @@ a {
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 10px 10px 10px 96px !important;
 }
 
 .hero-photo-overlay {
@@ -779,6 +786,15 @@ a {
 .related-link-section {
   padding-top: 0;
   padding-bottom: 24px;
+}
+
+.contact-related-link {
+  margin-top: 20px;
+}
+
+.contact-related-link .btn.ghost {
+  background: #ffffff;
+  border-radius: 999px !important;
 }
 
 #pricing,
@@ -1103,7 +1119,212 @@ a {
   text-underline-offset: 0.18em;
 }
 
+
+.kamishibai-panel {
+  position: sticky;
+  top: 0;
+  z-index: calc(30 + var(--panel-index, 1));
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 -1px 0 rgba(17, 24, 39, 0.08), 0 -24px 60px rgba(17, 24, 39, 0.08);
+}
+
+.kamishibai-panel:not(.panel-contact) {
+  margin-bottom: 42svh;
+}
+
+.kamishibai-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 248, 250, 0.94));
+}
+
+.kamishibai-panel > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.panel-photo {
+  padding-top: clamp(64px, 8vw, 96px);
+}
+
+.panel-photo .hero-inner {
+  transform: translateY(clamp(-22px, -2vw, -10px));
+}
+
+.panel-features::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(244, 246, 248, 0.95));
+}
+
+.panel-pricing::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 248, 246, 0.96));
+}
+
+.panel-contact::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(242, 244, 247, 0.96));
+}
+
+.panel-features .section-inner,
+.panel-pricing .section-inner,
+.panel-contact .section-inner {
+  transform: translateY(clamp(-10px, -1.2vw, -4px));
+}
+
+#about,
+#schedule {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+
+.kamishibai-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.kamishibai-stage.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.kamishibai-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 -1px 0 rgba(17, 24, 39, 0.08), 0 -24px 60px rgba(17, 24, 39, 0.08);
+  overflow: hidden;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+
+.kamishibai-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(245, 247, 249, 0.96));
+}
+
+.kamishibai-scene > .container {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.kamishibai-scene .hero-inner,
+.kamishibai-scene .section-inner {
+  width: 100%;
+}
+
+.kamishibai-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vh, 42px);
+  width: 100%;
+}
+
+.kamishibai-card-stack .section-inner {
+  padding-block: 0;
+}
+
+.kamishibai-card-stack .section-title,
+.kamishibai-card-stack .belongings-title {
+  margin-bottom: 12px;
+}
+
+.kamishibai-card-stack .section-note,
+.kamishibai-card-stack .contact-methods,
+.kamishibai-card-stack .related-link-section {
+  margin-top: 8px;
+}
+
+.kamishibai-card-stack .related-link-section {
+  padding: 0;
+}
+
+.kamishibai-card-stack .contact-related-link {
+  margin-top: 14px;
+}
+
+.kamishibai-card-stack .related-link-section .section-inner {
+  align-items: flex-start;
+}
+
+@media (max-height: 760px) {
+  .kamishibai-card-stack {
+    gap: 18px;
+  }
+
+  .kamishibai-card-stack .section-lead,
+  .kamishibai-card-stack .schedule-simple p,
+  .kamishibai-card-stack .contact-methods {
+    line-height: 1.65;
+  }
+}
+
+.kamishibai-stage .reveal-on-scroll,
+.kamishibai-stage .hero-text h1,
+.kamishibai-stage .hero-tagline,
+.kamishibai-stage .hero-copy,
+.kamishibai-stage .hero-copy-line,
+.kamishibai-stage .hero-photo {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  clip-path: none !important;
+  animation: none !important;
+}
+
+.has-kamishibai-stage .kamishibai-panel {
+  position: relative;
+  top: auto;
+  z-index: auto;
+  min-height: 100svh;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.has-kamishibai-stage .kamishibai-panel:not(.panel-contact) {
+  margin-bottom: 0;
+}
+
+.has-kamishibai-stage #about,
+.has-kamishibai-stage #schedule {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.has-kamishibai-stage main > .related-link-section {
+  display: none;
+}
+
+.has-kamishibai-stage .site-footer {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .kamishibai-panel:not(.panel-contact) {
+    margin-bottom: 28svh;
+  }
+
+
   .section {
     padding: 44px 0;
   }
@@ -1156,8 +1377,7 @@ a {
     pointer-events: none;
   }
 
-  .site-header.nav-open .menu-close-text,
-  .site-header.nav-closing .menu-close-text {
+  .site-header.nav-open .menu-close-text {
     opacity: 1;
     transform: translate(0, -50%);
   }
