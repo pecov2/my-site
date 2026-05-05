@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('js-ready');
   const header = document.querySelector('.site-header');
   const menuToggle = document.querySelector('.menu-toggle');
+  const menuCloseText = document.querySelector('.menu-close-text');
   const nav = document.getElementById('site-nav');
   const langToggle = document.querySelector('[data-lang-toggle]');
   const page = document.body.dataset.page || 'kendo';
@@ -94,11 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   let currentLang = localStorage.getItem('sumiyoshiLanguage') === 'en' ? 'en' : 'ja';
+  const menuCloseDuration = 1550;
+  let menuCloseTimer = null;
 
   const menuLabel = (isOpen) => {
     if (currentLang === 'en') return isOpen ? 'Close menu' : 'Open menu';
     return isOpen ? 'メニューを閉じる' : 'メニューを開く';
   };
+
+  const menuCloseTextLabel = () => (currentLang === 'en' ? 'Close' : '閉じる');
 
   const applyLanguage = (lang) => {
     currentLang = lang;
@@ -124,23 +129,60 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = header?.classList.contains('nav-open') || false;
       menuToggle.setAttribute('aria-label', menuLabel(isOpen));
     }
+    if (menuCloseText) {
+      menuCloseText.textContent = menuCloseTextLabel();
+    }
+    prepareHeroCopy();
     localStorage.setItem('sumiyoshiLanguage', lang);
   };
 
-  const closeMenu = () => {
-    if (!header || !menuToggle) return;
+  const prepareHeroCopy = () => {
+    const heroCopy = document.querySelector('[data-i18n="heroText"]');
+    if (!heroCopy) return;
+    const lines = heroCopy.innerHTML
+      .split(/<br\s*\/?>/i)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (!lines.length) return;
+    heroCopy.innerHTML = lines
+      .map((line) => `<span class="hero-copy-line">${line}</span>`)
+      .join('');
+  };
+
+  const closeMenu = (onClosed) => {
+    if (!header || !menuToggle) {
+      onClosed?.();
+      return;
+    }
+    if (!header.classList.contains('nav-open')) {
+      onClosed?.();
+      return;
+    }
+    window.clearTimeout(menuCloseTimer);
     header.classList.remove('nav-open');
-    document.body.classList.remove('nav-lock');
+    header.classList.add('nav-closing');
     menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.setAttribute('aria-label', menuLabel(false));
+    menuCloseTimer = window.setTimeout(() => {
+      header.classList.remove('nav-closing');
+      document.body.classList.remove('nav-lock');
+      onClosed?.();
+    }, menuCloseDuration);
   };
 
   if (menuToggle && header && nav) {
     menuToggle.addEventListener('click', () => {
-      const isOpen = header.classList.toggle('nav-open');
-      document.body.classList.toggle('nav-lock', isOpen);
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-      menuToggle.setAttribute('aria-label', menuLabel(isOpen));
+      if (header.classList.contains('nav-open')) {
+        closeMenu();
+        return;
+      }
+
+      window.clearTimeout(menuCloseTimer);
+      header.classList.remove('nav-closing');
+      header.classList.add('nav-open');
+      document.body.classList.add('nav-lock');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.setAttribute('aria-label', menuLabel(true));
     });
   }
 
@@ -176,17 +218,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // ロードアニメーションを隠す
   const loader = document.getElementById('page-loader');
   if (loader) {
-    // CSSアニメーションが終わる頃に非表示にする
+    // CSS閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる
     setTimeout(() => {
       loader.style.opacity = '0';
       loader.style.transition = 'opacity 0.4s ease-out';
+      document.body.classList.add('loader-revealing');
       setTimeout(() => {
         loader.style.display = 'none';
       }, 400);
-    }, 2600);
+    }, 3300);
+  } else {
+    document.body.classList.add('loader-revealing');
   }
 
-  // 年号を自動で更新
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
@@ -201,30 +245,37 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!target) return;
 
       e.preventDefault();
-      closeMenu();
-      requestAnimationFrame(() => {
+      const scrollToTarget = () => {
         const headerHeight = header ? header.getBoundingClientRect().height : 0;
         const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
         smoothScrollTo(Math.max(0, targetTop));
-      });
+      };
+
+      closeMenu();
+      window.setTimeout(scrollToTarget, 180);
     });
   });
 
-  // スクロール時にコンテンツをふわっと表示
+  // 閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる閉じる
   const revealTargets = document.querySelectorAll(
-    '.hero-text, .hero-visual, .section-title, .section-lead, .badge-row, .cards .card, .schedule-simple, .belongings-section, .contact-methods'
+    '.section-title, .belongings-title, .section-lead, .section-note, .badge-row, .cards .card, .schedule-simple, .belongings-list, .contact-methods'
   );
+  const revealDelayFor = (el) => {
+    if (el.classList.contains('section-title') || el.classList.contains('belongings-title')) return 0;
+    if (el.classList.contains('section-lead')) return 240;
+    return 420;
+  };
 
   if (!('IntersectionObserver' in window)) {
-    revealTargets.forEach((el, index) => {
+    revealTargets.forEach((el) => {
       el.classList.add('reveal-on-scroll');
-      el.style.setProperty('--reveal-delay', `${Math.min(index * 35, 220)}ms`);
+      el.style.setProperty('--reveal-delay', `${revealDelayFor(el)}ms`);
       requestAnimationFrame(() => el.classList.add('is-visible'));
     });
   } else {
-    revealTargets.forEach((el, index) => {
+    revealTargets.forEach((el) => {
       el.classList.add('reveal-on-scroll');
-      el.style.setProperty('--reveal-delay', `${Math.min(index * 35, 220)}ms`);
+      el.style.setProperty('--reveal-delay', `${revealDelayFor(el)}ms`);
     });
     const revealObserver = new IntersectionObserver(
       (entries, observer) => {

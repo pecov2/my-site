@@ -10,10 +10,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Sawarabi+Mincho&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260504i" />
+  <link rel="stylesheet" href="style.css?v=20260504k" />
 </head>
 
-<body data-page="kendo">
+<body class="js-ready" data-page="kendo">
   <div id="page-loader">
     <div class="loader-panel left"></div>
     <div class="loader-panel right"></div>
@@ -30,6 +30,7 @@
         <span></span>
         <span></span>
         <span></span>
+        <span class="menu-close-text">閉じる</span>
       </button>
       <nav class="nav" id="site-nav">
         <a href="#about" data-i18n="navAbout">教室について</a>
@@ -48,12 +49,25 @@
         <div class="hero-text">
           <h1 data-i18n="heroTitle">大人の剣道教室</h1>
           <p class="hero-tagline" data-i18n="heroTagline">大人のための、心と体を整える剣道。</p>
-          <p data-i18n="heroText">
+          <p class="hero-copy" data-i18n="heroText">
             休日のリフレッシュや、しばらく離れていた方の再開にも。
 住吉の静かな空間で、あらためて自分と向き合う時間を過ごしてみませんか。
           </p>
         </div>
         <div class="hero-visual">
+          <div class="hero-flow-text" aria-hidden="true">
+            <svg viewBox="0 0 260 260" focusable="false">
+              <defs>
+                <path id="hero-flow-path" d="M 130,130 m -104,0 a 104,104 0 1,1 208,0 a 104,104 0 1,1 -208,0" />
+              </defs>
+              <text>
+                <textPath href="#hero-flow-path" startOffset="0%">
+                  SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot; SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot;
+                  <animate attributeName="startOffset" from="0%" to="100%" dur="18s" repeatCount="indefinite" />
+                </textPath>
+              </text>
+            </svg>
+          </div>
           <div class="hero-photo">
             <img src="1.png" alt="住吉武道館 大人の剣道教室の集合写真" class="hero-photo-img" data-i18n-attr="alt:heroImageAlt" />
             <div class="hero-photo-overlay"></div>
@@ -170,7 +184,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=20260502c"></script>
+  <script src="script.js?v=20260502d"></script>
 </body>
 
 </html>
