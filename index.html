@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Sawarabi+Mincho&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260506p" />
+  <link rel="stylesheet" href="style.css?v=20260506au" />
 </head>
 
 <body class="js-ready" data-page="kendo">
@@ -27,9 +27,7 @@
         <span class="logo-sub">SUMIYOSHI BUDOKAN</span>
       </a>
       <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-nav">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span class="menu-toggle-label">メニュー</span>
         <span class="menu-close-text">閉じる</span>
       </button>
       <nav class="nav" id="site-nav">
@@ -62,8 +60,7 @@
               </defs>
               <text>
                 <textPath href="#hero-flow-path" startOffset="0%">
-                  SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot; SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot;
-                  <animate attributeName="startOffset" from="0%" to="100%" dur="18s" repeatCount="indefinite" />
+                  SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot; SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot; SUMIYOSHI BUDOKAN &middot; KENDO CLASS &middot;
                 </textPath>
               </text>
             </svg>
@@ -164,6 +161,9 @@
         <div class="contact-related-link">
           <a href="../naginata/index.html" class="btn ghost" data-i18n="relatedLink">子供と大人のなぎなた教室はこちら</a>
         </div>
+        <p class="scene-copyright">
+          &copy; <span data-year></span> <span data-i18n="footerText">住吉武道館 大人の剣道教室. All rights reserved.</span>
+        </p>
       </div>
     </section>
 
@@ -176,13 +176,13 @@
         <span class="logo-sub">SUMIYOSHI BUDOKAN</span>
       </div>
       <p>
-        &copy; <span id="year"></span> <span data-i18n="footerText">住吉武道館 大人の剣道教室. All rights
+        &copy; <span id="year" data-year></span> <span data-i18n="footerText">住吉武道館 大人の剣道教室. All rights
         reserved.</span>
       </p>
     </div>
   </footer>
 
-  <script src="script.js?v=20260506p"></script>
+  <script src="script.js?v=20260506au"></script>
 </body>
 
 </html>
